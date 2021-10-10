@@ -4,10 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { ApolloProvider } from '@apollo/client'
+import createApolloClient from './utils/apolloClient';
+import AuthStorage from './utils/authStorage';
+import AuthStorageContext from './contexts/AuthStorageContext';
+
+const authStorage = new AuthStorage();
+const apolloClient = createApolloClient(authStorage);
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <ApolloProvider client={apolloClient}>
+    <AuthStorageContext.Provider value={authStorage}>
+      <App />
+    </AuthStorageContext.Provider>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 
