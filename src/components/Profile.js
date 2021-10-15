@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { useHistory } from "react-router-dom"
-
+import UpdateProfile from './UpdateProfile';
 // import FormikTextInput from '../styles/FormikTextInput';
 
 // Hooks
@@ -8,9 +8,16 @@ import useGetMyProfile from '../hooks/useGetMyProfile'
 import useLogout from '../hooks/useLogout'
 
 const Profile = () => {
-  const { myProfile, loading } = useGetMyProfile()
+  const { myProfile, loading, fetchMore } = useGetMyProfile()
   const isLogout = useLogout()
   const history = useHistory()
+  // To toggle between update profile
+  const [updatingProfile, setUpdatingProfile] = useState(false)
+
+  // To refresh the data after updatingProfile is toggled
+  useEffect(() => {
+    fetchMore()
+  }, [updatingProfile])
 
   if (loading) {
     return (
@@ -35,9 +42,17 @@ const Profile = () => {
     })
   : null
 
+  // UpdateProfile
+  if (updatingProfile) return (<UpdateProfile myProfile={myProfile} setUpdatingProfile={setUpdatingProfile}/>)
+
+
+  // Profile
   return (
     <div>
       <button onClick={handleLogOut}>Log Out</button>
+      <div>
+        <button onClick={(event) => setUpdatingProfile(true)}>Update Profile</button>
+      </div>
       <h1>My Profile</h1>
       {myProfile.profilePicture
         ? <img src={ myProfile.profilePicture[0].uri } alt="profilePicture" width="300" height="auto"/>

@@ -61,45 +61,26 @@ export const UPLOAD = gql`
   }
 `;
 
-// export const ADD_REVIEW = gql`
-//   mutation createReview(
-//     $repositoryName: String!,
-//     $ownerName: String!,
-//     $rating: Int!,
-//     $text: String
-//     ) {
-//     createReview(
-//       review: {
-//         repositoryName: $repositoryName,
-//         ownerName: $ownerName,
-//         rating: $rating,
-//         text: $text
-//       }
-//     ) {
-//       id
-//     }
-//   }
-// `;
-
-// export const CREATE_USER = gql`
-//   mutation createUser(
-//     $username: String!,
-//     $password: String!,
-//     ) {
-//     createUser(
-//       user: {
-//         username: $username,
-//         password: $password
-//       }
-//     ) {
-//       username
-//       createdAt
-//     }
-//   }
-// `;
-
-// export const DELETE_REVIEW = gql`
-//   mutation deleteReview ($id: ID!){
-//     deleteReview (id: $id)
-//   }
-// `;
+export const UDPATE_USER = gql`
+  mutation updateUser(
+    $firstName: String!,
+    $lastName: String!,
+    $address: String!,
+    $phoneNumber: String!,
+    $description: String!
+    ) {
+    updateUser(
+      firstName: $firstName,
+      lastName: $lastName,
+      address: $address,
+      phoneNumber: $phoneNumber,
+      description: $description,
+    ) {
+      firstName
+      lastName
+      address
+      phoneNumber
+      description
+    }
+  }
+`;
