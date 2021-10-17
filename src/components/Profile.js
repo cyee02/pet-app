@@ -5,11 +5,9 @@ import UpdateProfile from './UpdateProfile';
 
 // Hooks
 import useGetMyProfile from '../hooks/useGetMyProfile'
-import useLogout from '../hooks/useLogout'
 
 const Profile = () => {
   const { myProfile, loading, fetchMore } = useGetMyProfile()
-  const isLogout = useLogout()
   const history = useHistory()
   // To toggle between update profile
   const [updatingProfile, setUpdatingProfile] = useState(false)
@@ -25,15 +23,11 @@ const Profile = () => {
     )
   }
   if (!myProfile) {
+    console.log("not myProfile");
     history.push('/signin')
     return (
       null
     )
-  }
-
-  const handleLogOut = () => {
-    isLogout(true)
-    history.push('/signin')
   }
 
   const imageList = myProfile.images
@@ -49,7 +43,6 @@ const Profile = () => {
   // Profile
   return (
     <div>
-      <button onClick={handleLogOut}>Log Out</button>
       <div>
         <button onClick={(event) => setUpdatingProfile(true)}>Update Profile</button>
       </div>

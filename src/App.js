@@ -5,6 +5,7 @@ import {
   Route,
   Redirect
 } from "react-router-dom";
+import NavBar from './components/NavBar';
 import SignIn from './components/SignIn';
 import Profile from './components/Profile';
 import Register from './components/Register';
@@ -13,6 +14,7 @@ import UploadImage from './components/UploadImage';
 function App() {
   return (
     <Router>
+      <NavBar />
       <Switch>
         <Route path="/signin">
           <SignIn />
@@ -26,7 +28,7 @@ function App() {
         <Route path="/uploadimage/:imageType">
           <UploadImage />
         </Route>
-        <Redirect to="/signin" />
+        <Redirect to="/profile" />
       </Switch>
     </Router>
   );
