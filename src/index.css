@@ -8,7 +8,7 @@ body {
   height: auto;
   min-height: 100vh;
   width: 100vw;
-  background: linear-gradient(180deg, lightcyan 0%, #FFFFFF 100%);
+  background: lightcyan 0%;
 }
 
 code {

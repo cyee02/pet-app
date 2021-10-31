@@ -1,70 +1,55 @@
-import React, {useState, useEffect} from 'react'
 import { useHistory } from "react-router-dom"
-import UpdateProfile from './UpdateProfile';
-// import FormikTextInput from '../styles/FormikTextInput';
 
-// Hooks
-import useGetMyProfile from '../hooks/useGetMyProfile'
-
-const Profile = () => {
-  const { myProfile, loading, fetchMore } = useGetMyProfile()
+const Profile = (args) => {
   const history = useHistory()
-  // To toggle between update profile
-  const [updatingProfile, setUpdatingProfile] = useState(false)
 
-  // To refresh the data after updatingProfile is toggled
-  useEffect(() => {
-    fetchMore()
-  }, [updatingProfile])
-
-  if (loading) {
-    return (
-      null
-    )
-  }
-  if (!myProfile) {
-    console.log("not myProfile");
+  if (!args.myProfile) {
     history.push('/signin')
     return (
       null
     )
   }
 
-  const imageList = myProfile.images
-  ? myProfile.images.map(image => {
-      return (<img src={image.uri} alt="" width="300" height="auto" key={image.uri}/>)
+  const imageList = args.myProfile.images
+  ? args.myProfile.images.map(image => {
+      return (<img src={image.uri} alt="" width="300" height="231" key={image.uri}/>)
     })
   : null
 
-  // UpdateProfile
-  if (updatingProfile) return (<UpdateProfile myProfile={myProfile} setUpdatingProfile={setUpdatingProfile}/>)
-
-
   // Profile
+  // ? <img src={ args.myProfile.profilePicture[0].uri } alt="profilePicture" className="profilePicture"/>
   return (
-    <div>
-      <div>
-        <button onClick={(event) => setUpdatingProfile(true)}>Update Profile</button>
+    <div className="profileOverall">
+      <div className="profileCard">
+        <div style={{ "display": "block", "alignSelf": "center"}} >
+          {args.myProfile.profilePicture
+            ? <img 
+              src={ args.myProfile.profilePicture[0].uri }
+              alt="profilePicture" className="profilePicture"/>
+            : null
+          }
+          <div style={{"position": "relative"}}>
+            <img src={"icons/plus.svg"} alt="new dp"
+              onClick={() => history.push('/uploadimage/profilePicture')}
+              style={{"height": "30px", "position": "absolute", "bottom": "0px", "right": "0px" }} />
+          </div>
+        </div>
+
+        <div className="profileDetails">
+          <div style={{"position": "relative" }}>
+            <img src={"icons/edit.svg"} alt="new dp"
+              onClick={() => history.push('/updateprofile')}
+              style={{"height": "30px", "position": "absolute", "top": "0px", "right": "5px" }} />
+            <h1>{args.myProfile.firstName} {args.myProfile.lastName}</h1>
+            <h5> {args.myProfile.description} </h5>
+            <p> {args.myProfile.address} </p>
+          </div>
+        </div>
       </div>
-      <h1>My Profile</h1>
-      {myProfile.profilePicture
-        ? <img src={ myProfile.profilePicture[0].uri } alt="profilePicture" width="300" height="auto"/>
-        : null
-      }
-      <button onClick={() => history.push('/uploadimage/profilePicture')}>Upload Profile Picture</button>
-      <p>
-      Name: {myProfile.firstName} {myProfile.lastName}<br/>
-      Address: {myProfile.address} <br/>
-      Description: {myProfile.description} <br/>
-      Email: {myProfile.email} <br/>
-      Gender: {myProfile.gender} <br/>
-      Phone Number: {myProfile.phoneNumber}
-      </p>
-      <h2>
-        Images
-      </h2>
-      <button onClick={() => history.push('/uploadimage/images')}>Upload Image</button>
-      {imageList}
+
+      <div className="imageGallery">
+        {imageList}
+      </div>
     </div>
   );
 }

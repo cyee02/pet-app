@@ -3,9 +3,6 @@ import { useHistory } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 
-// Styles
-import '../App.css';
-
 // Hooks
 import useLogin from '../hooks/useLogin'
 
@@ -23,9 +20,13 @@ const validationSchema = yup.object().shape({
     .required('Password is required'),
 });
 
-const SignIn = () => {
+const SignIn = ({myProfile}) => {
   const [login] = useLogin()
   const history = useHistory()
+
+  if (myProfile) {
+    history.push("/profile")
+  }
 
   const handleSignUp = () => {
     history.push('/register')
@@ -44,7 +45,7 @@ const SignIn = () => {
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       { ({errors, touched}) => (
-        <div style={{marginTop: "10%"}}>
+        <div style={{"width": "40%", "justifySelf": "center"}}>
           <img src="icons/paw.png" alt="logo" className="logo"/>
           <Form>
             <div className="inputSet">
@@ -63,7 +64,7 @@ const SignIn = () => {
                 <ErrorMessage name="password" />
               </span>
             </div>
-            <div className="buttonContainerVertical" style={{marginTop: "5%"}}>
+            <div className="buttonContainerHorizontal" style={{marginTop: "5%", "justifyContent": "center"}}>
               <button type="submit" >Log In</button>
               <button onClick={handleSignUp}>Register</button>
             </div>

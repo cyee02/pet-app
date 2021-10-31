@@ -6,8 +6,8 @@ const useGetMyProfile = () => {
     fetchPolicy: 'cache-and-network',
   })
 
-  const handleFetchMore = () => {
-    const canFetchMore = !loading
+  const handleFetchMore = (triggerFetchMore) => {
+    const canFetchMore = !loading && triggerFetchMore
     if (!canFetchMore) {
       return
     }

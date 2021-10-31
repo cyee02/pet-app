@@ -3,8 +3,6 @@ import { useHistory } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 
-// Styles
-import "../styles/containers.css"
 // import FormikTextInput from '../styles/FormikTextInput';
 
 // Hooks
@@ -77,47 +75,86 @@ const Register = () => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-      <div> 
-        <Form>
-          <label htmlFor="username">Username</label>
-          <Field name="username" />
-          <ErrorMessage name="username" />
+      { ({errors, touched}) => (
+        <div style={{"width": "50%", "justifySelf": "center"}}>
+          <Form>
+            <div className="inputSet">
+              <label htmlFor="username" >Username</label>
+              <Field name="username" className={ touched["username"] && errors["username"] ? "invalid" : "" }/>
+              <br/>
+              <span className="errorMessage">
+                <ErrorMessage name="username" />
+              </span>
+            </div>
+            <div className="inputSet">
+              <label htmlFor="password" >Password</label>
+              <Field name="password" className={ touched["password"] && errors["password"] ? "invalid" : "" }/>
+              <br/>
+              <span className="errorMessage">
+                <ErrorMessage name="password" />
+              </span>
+            </div>
+            <div className="inputSet">
+              <label htmlFor="firstName" >First name</label>
+              <Field name="firstName" className={ touched["firstName"] && errors["firstName"] ? "invalid" : "" }/>
+              <br/>
+              <span className="errorMessage">
+                <ErrorMessage name="firstName" />
+              </span>
+            </div>
+            <div className="inputSet">
+              <label htmlFor="lastName" >Last name</label>
+              <Field name="lastName" className={ touched["lastName"] && errors["lastName"] ? "invalid" : "" }/>
+              <br/>
+              <span className="errorMessage">
+                <ErrorMessage name="lastName" />
+              </span>
+            </div>
+            <div className="inputSet">
+              <label htmlFor="address" >Address</label>
+              <Field name="address" className={ touched["address"] && errors["address"] ? "invalid" : "" }/>
+              <br/>
+              <span className="errorMessage">
+                <ErrorMessage name="address" />
+              </span>
+            </div>
+            <div className="inputSet">
+              <label htmlFor="gender" >Gender</label>
+              <Field name="gender" className={ touched["gender"] && errors["gender"] ? "invalid" : "" }/>
+              <br/>
+              <span className="errorMessage">
+                <ErrorMessage name="gender" />
+              </span>
+            </div>
+            <div className="inputSet">
+              <label htmlFor="phoneNumber" >Phone Number</label>
+              <Field name="phoneNumber" className={ touched["phoneNumber"] && errors["phoneNumber"] ? "invalid" : "" }/>
+              <br/>
+              <span className="errorMessage">
+                <ErrorMessage name="phoneNumber" />
+              </span>
+            </div>
+            <div className="inputSet">
+              <label htmlFor="description" >Description</label>
+              <Field name="description" className={ touched["description"] && errors["description"] ? "invalid" : "" }/>
+              <br/>
+              <span className="errorMessage">
+                <ErrorMessage name="description" />
+              </span>
+            </div>
+            <div className="inputSet">
+              <label htmlFor="email" >Email</label>
+              <Field name="email" className={ touched["email"] && errors["email"] ? "invalid" : "" }/>
+              <br/>
+              <span className="errorMessage">
+                <ErrorMessage name="email" />
+              </span>
+            </div>
 
-          <label htmlFor="password">Password</label>
-          <Field name="password" type='password'/>
-          <ErrorMessage name="password" />
-
-          <label htmlFor="firstName">First name</label>
-          <Field name="firstName"/>
-          <ErrorMessage name="firstName" />
-
-          <label htmlFor="lastName">Last name</label>
-          <Field name="lastName"/>
-          <ErrorMessage name="lastName" />
-
-          <label htmlFor="address">Address</label>
-          <Field name="address" type='address'/>
-          <ErrorMessage name="address" />
-
-          <label htmlFor="gender">Gender</label>
-          <Field name="gender"/>
-          <ErrorMessage name="gender" />
-
-          <label htmlFor="phoneNumber">Phone Number</label>
-          <Field name="phoneNumber"/>
-          <ErrorMessage name="phoneNumber" />
-
-          <label htmlFor="description">Description</label>
-          <Field name="description"/>
-          <ErrorMessage name="description" />
-
-          <label htmlFor="email">Email</label>
-          <Field name="email" type='email'/>
-          <ErrorMessage name="email" />
-
-          <button type="submit">Register</button>
-        </Form>
-      </div>
+            <button type="submit">Register</button>
+          </Form>
+        </div>
+      )}
     </Formik>
   );
 }

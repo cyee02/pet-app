@@ -4,10 +4,7 @@ import { useDropzone } from 'react-dropzone'
 import { useParams, useHistory } from "react-router-dom"
 import useUploadImage from '../hooks/useUploadImage'
 
-// Styles
-import "../styles/containers.css"
-
-const UploadImage = () => {
+const UploadImage = ({setTriggerFetchMore}) => {
   const { imageType } = useParams()
   const history = useHistory()
   const [uploadImage] = useUploadImage()
@@ -42,13 +39,14 @@ const UploadImage = () => {
   });
 
   const imagePreview = (
-    <div>
+    <div style={{"border": "5px"}}>
       <img src={preview} alt="" width="600"/>
     </div>
   )
 
   const handleUpload = async () => {
     await uploadImage({image: file, imageType})
+    setTriggerFetchMore(true)
     history.push('/profile')
   }
 
@@ -58,8 +56,8 @@ const UploadImage = () => {
   }
 
   return (
-    <div>
-      <div {...getRootProps({ isdragactive, isdragaccept, isdragreject }) } className="ProfilePicture">
+    <div style={{"justifySelf": "center"}} >
+      <div {...getRootProps({ isdragactive, isdragaccept, isdragreject }) } className="uploadImage">
         <input {...getInputProps()} type='file' />
         {file ? null : "Click to upload or drag and drop image"}
         {preview && <aside >{imagePreview}</aside>}

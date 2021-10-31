@@ -1,10 +1,7 @@
 import React from 'react'
+import { useHistory } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
-
-// Styles
-import "../styles/containers.css"
-// import FormikTextInput from '../styles/FormikTextInput';
 
 // Hooks
 import useUpdateProfile from '../hooks/useUpdateProfile'
@@ -24,8 +21,9 @@ const validationSchema = yup.object().shape({
     .required('Description is required')
 });
 
-const UpdateProfile = ({myProfile, setUpdatingProfile}) => {
+const UpdateProfile = ({myProfile, setTriggerFetchMore}) => {
   const [updateProfile] = useUpdateProfile()
+  const history = useHistory()
 
   const initialValues = {
     firstName: myProfile.firstName,
@@ -44,7 +42,8 @@ const UpdateProfile = ({myProfile, setUpdatingProfile}) => {
       description} = values;
     try {
       await updateProfile({ firstName, lastName, address, phoneNumber, description });
-      setUpdatingProfile(false)
+      setTriggerFetchMore(true)
+      history.push('/profile')
     } catch (e) {
       console.log(e);
     }
@@ -52,7 +51,7 @@ const UpdateProfile = ({myProfile, setUpdatingProfile}) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-      <div> 
+      <div style={{"width": "50%", "justifySelf": "center"}}>
         <Form>
           <label htmlFor="firstName">First name</label>
           <Field name="firstName"/>

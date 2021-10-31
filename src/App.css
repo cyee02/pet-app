@@ -1,5 +1,117 @@
-/* Defaults */
+/* Containers */
+div.buttonContainerVertical{
+  display: grid;
+  grid-template-columns: auto;
+  margin: auto;
+  width: 50%;
+  grid-gap: 10px;
+  justify-content: center;
+}
+div.buttonContainerHorizontal{
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
 
+div.inputSet{
+  /* See whether can merge with form */
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+div.profileOverall{
+  display: grid;
+  grid-template-rows: 300px auto;
+  grid-gap: 10px;
+}
+
+div.profileCard{
+  display: grid;
+  position: inherit;
+  grid-template-columns: 250px auto;
+  margin: 25px 50px;
+  grid-gap: 35px;
+  min-height: 250px;
+}
+
+div.profileDetails{
+  display: grid;
+  grid-template-rows: auto 20%;
+  grid-gap: 5px;
+  padding: 5px;
+}
+
+div.imageGallery{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 5px;
+  margin-top: 10px;
+  margin: auto;
+  padding: auto;
+}
+
+div.uploadImage {
+  width: 600px;
+  height: auto;
+  min-height: 300px;
+  border: 1px solid;
+}
+
+
+/* Buttons */
+button {
+  display: inline-flex;
+  align-items: center; 
+  justify-content: center;
+  background-color: royalblue;
+  color: white;
+  padding: 15px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  width: 100px;
+  height: 20px;
+  margin: 5px
+}
+
+button:hover {
+  background-color: blue;
+}
+
+
+/* Text */
+.errorMessage{
+  color: red;
+  position: absolute;
+}
+
+
+/* Images */
+img.logo{
+  display: block;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  filter: drop-shadow(-8px 8px 10px gray);
+}
+
+img.profilePicture{
+  display: block;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  margin: auto;
+  /* margin-left: auto;
+  margin-right: auto; */
+}
+
+img.icon{
+  display: block;
+  width: auto;
+  height: 58px;
+}
+
+/* Forms and inputs */
 form{
   display: flex;
   padding: 5%;
@@ -7,7 +119,23 @@ form{
   flex-direction: column;
 }
 
-ul.NavBar {
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 3px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input.invalid {
+  border-color: red;
+}
+
+
+/* Others */
+.NavBar {
   list-style-type: none;
   margin: 0 0 5px 0;
   padding: 5px 25px 5px 5px;
@@ -25,73 +153,4 @@ li img {
 
 li img:hover {
   filter: drop-shadow(0px 0px 10px gray);
-}
-
-input {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 3px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input.invalid {
-  border-color: red;
-}
-
-button {
-  background-color: royalblue;
-  color: white;
-  padding: 15px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-label {
-  text-align: left;
-}
-
-button:hover {
-  background-color: blue;
-}
-
-
-/* CLASSES */
-/* Containers */
-.buttonContainerVertical{
-  display: grid;
-  grid-template-columns: auto;
-  margin: auto;
-  width: 50%;
-  grid-gap: 10px;
-}
-
-/* Images */
-.logo{
-  display: block;
-  width: 35%;
-  margin-left: auto;
-  margin-right: auto;
-  filter: drop-shadow(-8px 8px 10px gray);
-}
-
-.profilePicture{
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
-}
-
-/* Text */
-
-.inputSet{
-  margin-bottom: 10px;
-  padding: 10px;
-}
-
-.errorMessage{
-  color: red;
-  position: absolute;
 }
