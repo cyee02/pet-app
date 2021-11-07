@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from "react-router-dom"
 
 // Hooks
-import useLogout from '../hooks/useLogout'
+import useLogout from './useLogout'
 
 const NavBar = () => {
   const history = useHistory()

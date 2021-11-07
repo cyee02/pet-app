@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { UPLOAD } from '../graphql/mutations';
+import { UPLOAD } from '../../graphql/mutations';
 
 const useUploadImage = () => {
   const [ mutate, result ] = useMutation(UPLOAD, {

@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 
 // Hooks
-import useUpdateProfile from '../hooks/useUpdateProfile'
+import useUpdateProfile from './useUpdateProfile'
 
 const validationSchema = yup.object().shape({
   firstName: yup

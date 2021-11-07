@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
-import { REGISTER, LOGIN } from '../graphql/mutations';
-import useAuthStorage from '../hooks/useAuthStorage';
+import { REGISTER, LOGIN } from '../../graphql/mutations';
+import useAuthStorage from '../../hooks/useAuthStorage';
 import { useApolloClient } from '@apollo/client';
 
 const useRegister = () => {

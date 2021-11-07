@@ -6,7 +6,7 @@ import * as yup from 'yup'
 // import FormikTextInput from '../styles/FormikTextInput';
 
 // Hooks
-import useRegister from '../hooks/useRegister'
+import useRegister from './useRegister'
 
 const initialValues = {
   username: '',

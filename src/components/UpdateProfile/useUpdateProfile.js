@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { UDPATE_USER } from '../graphql/mutations';
+import { UDPATE_USER } from '../../graphql/mutations';
 
 const useUpdateProfile = () => {
   const [ updateUser ] = useMutation(UDPATE_USER, {

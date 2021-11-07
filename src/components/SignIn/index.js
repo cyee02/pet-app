@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 
 // Hooks
-import useLogin from '../hooks/useLogin'
+import useLogin from './useLogin'
 
 const initialValues = {
   username: '',
