@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client'
-import { GetMyProfile } from '../graphql/queries'
+import { GET_MY_PROFILE } from '../graphql/queries'
 
 const useGetMyProfile = () => {
-  const { data, loading, fetchMore, ...result } = useQuery(GetMyProfile, {
+  const { data, loading, fetchMore, ...result } = useQuery(GET_MY_PROFILE, {
     fetchPolicy: 'cache-and-network',
   })
 

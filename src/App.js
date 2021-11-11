@@ -11,6 +11,7 @@ import Profile from './components/Profile';
 import Register from './components/Register';
 import UploadImage from './components/UploadImage';
 import UpdateProfile from './components/UpdateProfile';
+import Chat from './components/Chat';
 import './App.css';
 
 import useGetMyProfile from './hooks/useGetMyProfile'
@@ -35,7 +36,7 @@ function App() {
        : null}
       <Switch>
         <Route path="/signin">
-          <SignIn  myProfile={myProfile}/>
+          <SignIn myProfile={myProfile}/>
         </Route>
         <Route path="/register">
           <Register />
@@ -48,6 +49,9 @@ function App() {
         </Route>
         <Route path="/uploadimage/:imageType">
           <UploadImage setTriggerFetchMore={setTriggerFetchMore}/>
+        </Route>
+        <Route path="/chat">
+          <Chat  myProfile={myProfile}  />
         </Route>
         <Redirect to="/profile" />
       </Switch>

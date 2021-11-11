@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 // import { REPOSITORY_CONNECTION, REPOSITORY_DETAILS, REVIEW_CONNECTION, REVIEW_DETAILS } from './fragments';
 
-export const GetMyProfile = gql`
+export const GET_MY_PROFILE = gql`
   query getUser {
     getUser {
       username,
@@ -26,6 +26,28 @@ export const GetMyProfile = gql`
   }
 `;
 
+export const GET_CONVERSATIONS = gql`
+  query getConversation {
+    getConversation {
+      conversationId,
+      conversationName,
+      users
+    }
+  }
+`;
+
+export const GET_MESSAGES = gql`
+  query getMessage ($conversationId: String!) {
+    getMessage (
+      conversationId: $conversationId
+    ){
+      created,
+      id,
+      text,
+      user
+    }
+  }
+`;
 
 // export const GET_REPOSITORIES = gql`
 //   query repositories (

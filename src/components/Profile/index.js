@@ -14,7 +14,7 @@ const Profile = (args) => {
   ? args.myProfile.images.map(image => {
       return (<img src={image.uri} alt="" width="300" height="231" key={image.uri}/>)
     })
-  : null
+  : <p>No images found for user</p>
 
   // Profile
   // ? <img src={ args.myProfile.profilePicture[0].uri } alt="profilePicture" className="profilePicture"/>
@@ -26,7 +26,9 @@ const Profile = (args) => {
             ? <img 
               src={ args.myProfile.profilePicture[0].uri }
               alt="profilePicture" className="profilePicture"/>
-            : null
+            : <img 
+              src={"icons/profileSilhouette.svg"}
+              alt="profilePicture" className="profilePicture"/>
           }
           <div style={{"position": "relative"}}>
             <img src={"icons/plus.svg"} alt="new dp"

@@ -1,8 +1,27 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache, split } from '@apollo/client';
+import { getMainDefinition } from '@apollo/client/utilities'
+import { WebSocketLink } from "@apollo/client/link/ws";
 import { setContext } from '@apollo/client/link/context';
 import { createUploadLink } from 'apollo-upload-client';
 
 const link = createUploadLink({ uri: 'http://localhost:4000/graphql' });
+const wsLink = new WebSocketLink({
+  uri: `ws://localhost:4000/graphql`,
+  options: {
+    reconnect: true,
+  },
+});
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  link,
+);
 
 // const cache = new InMemoryCache({
 //   typePolicies: {
@@ -37,7 +56,8 @@ const createApolloClient = (authStorage) => {
     }
   });
   return new ApolloClient({
-    link: authLink.concat(link),
+    link: authLink.concat(splitLink),
+    uri: 'http://localhost:4000/', //connect to server
     cache: new InMemoryCache(),
   });
 };

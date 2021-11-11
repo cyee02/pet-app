@@ -84,3 +84,20 @@ export const UDPATE_USER = gql`
     }
   }
 `;
+
+export const POST_MESSAGE = gql`
+  mutation postMessage(
+    $conversationId: String!,
+    $text: String!
+    ){
+    postMessage(
+      conversationId: $conversationId,
+      text: $text
+    ) {
+      created
+      id
+      text
+      user
+    }
+  }
+`;
