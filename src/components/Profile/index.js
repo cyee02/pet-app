@@ -1,50 +1,64 @@
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
+import useGetProfile from "./useGetProfile"
 
 const Profile = (args) => {
   const history = useHistory()
+  const { username } = useParams()
+  const {profileInfo, loading} = useGetProfile(username)
 
-  if (!args.myProfile) {
-    history.push('/signin')
+  if (loading) {
+    return null
+  }
+  var profile = profileInfo
+  var isMyProfile = false
+
+  if (args.myProfile && username === args.myProfile.username) {
+    profile = args.myProfile
+  }
+
+  if(!profile) {
     return (
-      null
+      <p>User '{username}' not found</p>
     )
   }
 
-  const imageList = args.myProfile.images
-  ? args.myProfile.images.map(image => {
-      return (<img src={image.uri} alt="" width="300" height="231" key={image.uri}/>)
-    })
-  : <p>No images found for user</p>
+  const imageList = profile.images
+    ? profile.images.map(image => {
+        return (<img src={image.uri} alt="" width="300" height="231" key={image.uri}/>)
+      })
+    : <p>No images found for user</p>
 
-  // Profile
-  // ? <img src={ args.myProfile.profilePicture[0].uri } alt="profilePicture" className="profilePicture"/>
   return (
     <div className="profileOverall">
       <div className="profileCard">
         <div style={{ "display": "block", "alignSelf": "center"}} >
-          {args.myProfile.profilePicture
+          {profile.profilePicture
             ? <img 
-              src={ args.myProfile.profilePicture[0].uri }
+              src={ profile.profilePicture[0].uri }
               alt="profilePicture" className="profilePicture"/>
             : <img 
               src={"icons/profileSilhouette.svg"}
               alt="profilePicture" className="profilePicture"/>
           }
-          <div style={{"position": "relative"}}>
-            <img src={"icons/plus.svg"} alt="new dp"
-              onClick={() => history.push('/uploadimage/profilePicture')}
-              style={{"height": "30px", "position": "absolute", "bottom": "0px", "right": "0px" }} />
-          </div>
+          {isMyProfile &&
+            <div style={{"position": "relative"}}>
+              <img src={"icons/plus.svg"} alt="new dp"
+                onClick={() => history.push('/uploadimage/profilePicture')}
+                style={{"height": "30px", "position": "absolute", "bottom": "0px", "right": "0px" }} />
+            </div>
+          }
         </div>
 
         <div className="profileDetails">
           <div style={{"position": "relative" }}>
+          {isMyProfile &&
             <img src={"icons/edit.svg"} alt="new dp"
               onClick={() => history.push('/updateprofile')}
               style={{"height": "30px", "position": "absolute", "top": "0px", "right": "5px" }} />
-            <h1>{args.myProfile.firstName} {args.myProfile.lastName}</h1>
-            <h5> {args.myProfile.description} </h5>
-            <p> {args.myProfile.address} </p>
+          }
+            <h1>{profile.username}</h1>
+            <h5>{profile.firstName} {profile.lastName}</h5>
+            <p> {profile.description} </p>
           </div>
         </div>
       </div>

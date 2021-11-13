@@ -25,7 +25,7 @@ const SignIn = ({myProfile}) => {
   const history = useHistory()
 
   if (myProfile) {
-    history.push("/profile")
+    history.push(`/user/${myProfile.username}`)
   }
 
   const handleSignUp = () => {
@@ -36,7 +36,7 @@ const SignIn = ({myProfile}) => {
     const { username, password } = values;
     try {
       await login({ username, password });
-      history.push("/profile");
+      history.push(`/user/${myProfile.username}`)
     } catch (e) {
       console.log(e);
     }

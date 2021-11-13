@@ -67,7 +67,7 @@ const Register = () => {
       email } = values;
     try {
       await register({ username, password, firstName, lastName, address, gender, phoneNumber, description, email });
-      history.push("/profile")
+      history.push(`/user/${username}`)
     } catch (e) {
       console.log(e);
     }

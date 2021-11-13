@@ -49,6 +49,29 @@ export const GET_MESSAGES = gql`
   }
 `;
 
+export const GET_PROFILE = gql`
+  query getProfile ($username: String!) {
+    getProfile (
+      username: $username
+    ){
+      username
+      firstName
+      lastName
+      description
+      profilePicture {
+        uri
+        imageType
+        created
+      }
+      images {
+        uri
+        imageType
+        created
+      }
+    }
+  }
+`;
+
 // export const GET_REPOSITORIES = gql`
 //   query repositories (
 //     $orderDirection: OrderDirection,

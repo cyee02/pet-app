@@ -29,11 +29,11 @@ function App() {
       null
     )
   }
+  var isLogIn = false
+  myProfile ? isLogIn = true : isLogIn = false
   return (
     <Router>
-      {myProfile
-       ? <NavBar />
-       : null}
+      <NavBar isLogin={isLogIn} myProfile={myProfile} />
       <Switch>
         <Route path="/signin">
           <SignIn myProfile={myProfile}/>
@@ -41,8 +41,8 @@ function App() {
         <Route path="/register">
           <Register />
         </Route>
-        <Route path="/profile">
-          <Profile myProfile={myProfile} fetchMore={fetchMore}/>
+        <Route path="/user/:username">
+          <Profile myProfile={myProfile} />
         </Route>
         <Route path="/updateprofile" match="exact">
           <UpdateProfile myProfile={myProfile} setTriggerFetchMore={setTriggerFetchMore}/>
@@ -53,7 +53,7 @@ function App() {
         <Route path="/chat">
           <Chat  myProfile={myProfile}  />
         </Route>
-        <Redirect to="/profile" />
+        <Redirect to="/user" />
       </Switch>
     </Router>
   );

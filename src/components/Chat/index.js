@@ -8,8 +8,8 @@ import useSubscribeMessage from './useSubscribeMessage';
 import usePostMessage from './usePostMessage';
 
 const Chat = ({myProfile, conversation = {
-  conversationId: "710c940d-dce9-40e0-b5b2-8a91fab24abf",
-  conversationName: "Private chat with usertest1",
+  conversationId: "2f1c4521-7f6c-4f1c-9d52-efa47c999f9b",
+  conversationName: "test",
   users: ["username", "usertest1", "usertest2"]
 }}) =>{
   const conversationId = conversation.conversationId
@@ -20,6 +20,7 @@ const Chat = ({myProfile, conversation = {
   const {initialMessages, loading} = useGetMessage(conversationId)
 
   var initialLoading = true
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   var messages = []
 
   if (!loading) {
