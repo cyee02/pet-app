@@ -12,7 +12,8 @@ const Profile = (args) => {
   var profile = profileInfo
   var isMyProfile = false
 
-  if (args.myProfile && username === args.myProfile.username) {
+  if (args.myProfile !== null && username === args.myProfile.username) {
+    isMyProfile = true
     profile = args.myProfile
   }
 
@@ -42,7 +43,7 @@ const Profile = (args) => {
           }
           {isMyProfile &&
             <div style={{"position": "relative"}}>
-              <img src={"icons/plus.svg"} alt="new dp"
+              <img src={require("../../assets/icons/plus.svg").default} alt="new dp"
                 onClick={() => history.push('/uploadimage/profilePicture')}
                 style={{"height": "30px", "position": "absolute", "bottom": "0px", "right": "0px" }} />
             </div>
@@ -52,7 +53,7 @@ const Profile = (args) => {
         <div className="profileDetails">
           <div style={{"position": "relative" }}>
           {isMyProfile &&
-            <img src={"icons/edit.svg"} alt="new dp"
+            <img src={require("../../assets/icons/edit.svg").default} alt="new dp"
               onClick={() => history.push('/updateprofile')}
               style={{"height": "30px", "position": "absolute", "top": "0px", "right": "5px" }} />
           }

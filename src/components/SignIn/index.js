@@ -46,7 +46,7 @@ const SignIn = ({myProfile}) => {
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
       { ({errors, touched}) => (
         <div style={{"width": "40%", "justifySelf": "center"}}>
-          <img src="icons/paw.png" alt="logo" className="logo"/>
+          <img src={require("../../assets/icons/paw.png").default} alt="logo" className="logo"/>
           <Form>
             <div className="inputSet">
               <label htmlFor="username" >Username</label>

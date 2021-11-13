@@ -15,7 +15,6 @@ import Chat from './components/Chat';
 import './App.css';
 
 import useGetMyProfile from './hooks/useGetMyProfile'
-
 function App() {
   const { myProfile, loading, fetchMore } = useGetMyProfile()
   const [triggerFetchMore, setTriggerFetchMore] = useState(false)
@@ -53,7 +52,7 @@ function App() {
         <Route path="/chat">
           <Chat  myProfile={myProfile}  />
         </Route>
-        <Redirect to="/user" />
+        <Redirect to="/signin" />
       </Switch>
     </Router>
   );

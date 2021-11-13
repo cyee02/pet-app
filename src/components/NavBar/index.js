@@ -16,15 +16,14 @@ const NavBar = ({isLogin, myProfile}) => {
   return (
     <div>
       <ul className="NavBar">
-        <li> <img src="icons/paw.png" className="icon" alt="" /> </li>
-        <li><img src={"icons/home.svg"} alt="home"/></li>
+        <li> <img src={require("../../assets/icons/paw.png").default} className="icon" alt="" /> </li>
         {isLogin
           ?
           <div>
-          <li><img src={"icons/notification.svg"} alt="notification"/></li>
-          <li><img src={"icons/profile.svg"} alt="profile" onClick={() => history.push(`/user/${myProfile.username}`)} /></li>
-          <li><img src={"icons/chats.svg"} alt="chats" onClick={() => history.push('/chat')} /></li>
-          <li><img src={"icons/newImage.svg"} alt="upload" onClick={() => history.push('/uploadimage/images')}/></li>
+          <li><img src={require("../../assets/icons/notification.svg").default} alt="notification"/></li>
+          <li><img src={require("../../assets/icons/profile.svg").default} alt="profile" onClick={() => history.push(`/user/${myProfile.username}`)} /></li>
+          <li><img src={require("../../assets/icons/chats.svg").default} alt="chats" onClick={() => history.push('/chat')} /></li>
+          <li><img src={require("../../assets/icons/newImage.svg").default} alt="upload" onClick={() => history.push('/uploadimage/images')}/></li>
           </div>
           : null
         }
