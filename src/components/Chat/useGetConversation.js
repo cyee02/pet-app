@@ -1,4 +1,4 @@
-import { useQuery} from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { GET_CONVERSATIONS } from '../../graphql/queries'
 
 const useGetConversation = () =>{
@@ -8,7 +8,7 @@ const useGetConversation = () =>{
 
   return {
     conversations: data?.getConversation,
-    loading,
+    conversationLoading: loading,
     ...result
   }
 }

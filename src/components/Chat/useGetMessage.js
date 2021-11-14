@@ -1,13 +1,17 @@
-import { useQuery} from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { GET_MESSAGES } from '../../graphql/queries'
 
-const useGetMessage = (conversationId) =>{
-  const {data, loading} = useQuery(GET_MESSAGES, {
-    fetchPolicy: 'cache-and-network',
-    variables: {conversationId: conversationId}
+const useGetMessage = () =>{
+  const [query, {data, loading}] = useLazyQuery(GET_MESSAGES, {
+    fetchPolicy: 'cache-and-network'
   })
 
+  const getMessage = (conversationId) => {
+    return query({variables: {conversationId: conversationId}})
+  }
+
   return {
+    getMessage: getMessage,
     initialMessages: data?.getMessage,
     loading
   }

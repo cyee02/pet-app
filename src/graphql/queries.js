@@ -72,6 +72,21 @@ export const GET_PROFILE = gql`
   }
 `;
 
+export const GET_CHAT_PROFILE = gql`
+  query getProfiles ($usernames: [String!]) {
+    getProfiles (
+      usernames: $usernames
+    ){
+      username
+      firstName
+      lastName
+      profilePicture {
+        uri
+      }
+    }
+  }
+`;
+
 // export const GET_REPOSITORIES = gql`
 //   query repositories (
 //     $orderDirection: OrderDirection,

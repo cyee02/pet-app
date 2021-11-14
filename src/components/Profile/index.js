@@ -1,10 +1,15 @@
+import { useEffect } from "react"
 import { useHistory, useParams } from "react-router-dom"
-import useGetProfile from "./useGetProfile"
+import useGetProfile from "../../hooks/useGetProfile"
 
 const Profile = (args) => {
   const history = useHistory()
   const { username } = useParams()
-  const {profileInfo, loading} = useGetProfile(username)
+  const {getProfile, profileInfo, loading} = useGetProfile()
+
+  useEffect(() => {
+    getProfile(username)
+  }, [username])
 
   if (loading) {
     return null
@@ -38,7 +43,7 @@ const Profile = (args) => {
               src={ profile.profilePicture[0].uri }
               alt="profilePicture" className="profilePicture"/>
             : <img 
-              src={"icons/profileSilhouette.svg"}
+              src={require("../../assets/icons/profileSilhouette.svg").default}
               alt="profilePicture" className="profilePicture"/>
           }
           {isMyProfile &&
