@@ -48,7 +48,7 @@ const Chat = ({myProfile}) =>{
     <Grid container spacing={2} style={{padding: "1rem"}}>
       <Grid item xs={3}>
         <Toolbar >
-          <Typography > Conversations </Typography>
+          <Typography variant="h5"> Conversations </Typography>
         </Toolbar>
         <List>
           {!conversationLoading && conversations.map(conversation => {
@@ -73,9 +73,9 @@ const Chat = ({myProfile}) =>{
         {userList && 
           <Container style={{height: "75vh"}}>
             <Toolbar >
-              <Typography > {conversation.conversationName} </Typography>
+              <Typography variant="h5"> {conversation.conversationName} </Typography>
             </Toolbar>
-            <List style={{height: '60vh', overflow: 'auto'}} >
+            <List style={{height: '60vh', overflow: 'auto', backgroundColor: 'azure', borderRadius: '10px', padding: '10px'}} >
               {messages && messages.slice(0).reverse().map(({id, user, created, text}) => {
                 var userInfo = userList.filter( userListItem => userListItem.username === user)[0]
                 var time = new Date(parseInt(created)).toLocaleString()

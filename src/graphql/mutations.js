@@ -101,3 +101,19 @@ export const POST_MESSAGE = gql`
     }
   }
 `;
+
+export const CREATE_CONVERSATION = gql`
+  mutation createConversation (
+    $users: [String!]
+    $conversationName: String
+    ){
+    createConversation (
+      users: $users,
+      conversationName: $conversationName
+    ) {
+      conversationId
+      conversationName
+      users
+    }
+  }
+`;

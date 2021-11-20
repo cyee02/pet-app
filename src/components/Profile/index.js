@@ -1,11 +1,15 @@
 import { useEffect } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import useGetProfile from "../../hooks/useGetProfile"
+import useCreateConversation from "./useCreateConversation"
+import useGetConversation from '../Chat/useGetConversation'
 
 const Profile = (args) => {
   const history = useHistory()
   const { username } = useParams()
   const {getProfile, profileInfo, loading} = useGetProfile()
+  const [createConversation] = useCreateConversation()
+  const {conversations} = useGetConversation()
 
   useEffect(() => {
     getProfile(username)
@@ -33,6 +37,21 @@ const Profile = (args) => {
         return (<img src={image.uri} alt="" width="300" height="231" key={image.uri}/>)
       })
     : <p>No images found for user</p>
+
+  const handleCreateConversation = async() => {
+    var hasPrivateChat = false
+    conversations.every(conversation => {
+      if (conversation.users.filter(user => user!==profile.username && user!==args.myProfile.username ).length === 0){
+        hasPrivateChat = true
+        return false // to break the loop
+      }
+      return true // does nothing and goes to next iteration
+    })
+    if (!hasPrivateChat){
+      await createConversation({users: [profile.username], conversationName: `${profile.firstName} ${profile.lastName}`})
+    }
+    history.push('/chat')
+  }
 
   return (
     <div className="profileOverall">
@@ -65,6 +84,11 @@ const Profile = (args) => {
             <h1>{profile.username}</h1>
             <h5>{profile.firstName} {profile.lastName}</h5>
             <p> {profile.description} </p>
+          </div>
+          <div>
+            {!isMyProfile && 
+            <button onClick={handleCreateConversation} >Message</button>
+            }
           </div>
         </div>
       </div>
