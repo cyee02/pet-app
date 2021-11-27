@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import useGetProfile from "../../hooks/useGetProfile"
@@ -13,7 +14,7 @@ const Profile = (args) => {
 
   useEffect(() => {
     getProfile(username)
-  }, [username])
+  }, [])
 
   if (loading) {
     return null

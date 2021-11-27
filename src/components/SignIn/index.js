@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useHistory } from "react-router-dom"
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import {Dialog, DialogContent, DialogContentText, DialogActions, Button} from '@mui/material';
 import * as yup from 'yup'
 
 // Hooks
@@ -23,6 +24,7 @@ const validationSchema = yup.object().shape({
 const SignIn = ({myProfile}) => {
   const [login] = useLogin()
   const history = useHistory()
+  const [isError, setIsError] = useState(false)
 
   if (myProfile) {
     history.push(`/user/${myProfile.username}`)
@@ -38,7 +40,7 @@ const SignIn = ({myProfile}) => {
       await login({ username, password });
       history.push(`/user/${myProfile.username}`)
     } catch (e) {
-      console.log(e);
+      setIsError(true)
     }
   }
 
@@ -69,6 +71,19 @@ const SignIn = ({myProfile}) => {
               <button onClick={handleSignUp}>Register</button>
             </div>
           </Form>
+          <Dialog
+            open={isError}
+            aria-describedby="alert-dialog-description"
+            >
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Invalid username or password
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setIsError(false)} autofocus>Okay</Button>
+            </DialogActions>
+          </Dialog>
         </div>
       )}
     </Formik>
