@@ -4,6 +4,9 @@ import { useHistory, useParams } from "react-router-dom"
 import useGetProfile from "../../hooks/useGetProfile"
 import useCreateConversation from "./useCreateConversation"
 import useGetConversation from '../Chat/useGetConversation'
+import {Grid, Avatar, Badge, Container, ImageList, ImageListItem, Button} from '@mui/material';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Profile = (args) => {
   const history = useHistory()
@@ -33,12 +36,6 @@ const Profile = (args) => {
     )
   }
 
-  const imageList = profile.images
-    ? profile.images.map(image => {
-        return (<img src={image.uri} alt="" width="300" height="231" key={image.uri}/>)
-      })
-    : <p>No images found for user</p>
-
   const handleCreateConversation = async() => {
     var hasPrivateChat = false
     conversations.every(conversation => {
@@ -54,50 +51,46 @@ const Profile = (args) => {
     history.push('/chat')
   }
 
+  console.log(profile.images)
+
   return (
-    <div className="profileOverall">
-      <div className="profileCard">
-        <div style={{ "display": "block", "alignSelf": "center"}} >
-          {profile.profilePicture
-            ? <img 
-              src={ profile.profilePicture[0].uri }
-              alt="profilePicture" className="profilePicture"/>
-            : <img 
-              src={require("../../assets/icons/profileSilhouette.svg").default}
-              alt="profilePicture" className="profilePicture"/>
-          }
-          {isMyProfile &&
-            <div style={{"position": "relative"}}>
-              <img src={require("../../assets/icons/plus.svg").default} alt="new dp"
+    <Container style={{marginTop: "2rem"}} >
+      <Grid container>
+        <Grid item xs={3}>
+          {profile.profilePicture &&
+            <Container>
+              <Badge
+                overlap="circular"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                badgeContent={isMyProfile && <AddCircleIcon color="primary"
+                style={{backgroundColor: "white", borderRadius: "50%", border: "0.15rem solid" }} />}
                 onClick={() => history.push('/uploadimage/profilePicture')}
-                style={{"height": "30px", "position": "absolute", "bottom": "0px", "right": "0px" }} />
-            </div>
+              >
+                <Avatar src={profile.profilePicture[0].uri} style={{width: "10rem", height: "auto", filter: "drop-shadow(0px 0px 2px gray)"}} />
+              </Badge>
+            </Container>
           }
-        </div>
-
-        <div className="profileDetails">
-          <div style={{"position": "relative" }}>
-          {isMyProfile &&
-            <img src={require("../../assets/icons/edit.svg").default} alt="new dp"
-              onClick={() => history.push('/updateprofile')}
-              style={{"height": "30px", "position": "absolute", "top": "0px", "right": "5px" }} />
-          }
-            <h1>{profile.username}</h1>
-            <h5>{profile.firstName} {profile.lastName}</h5>
-            <p> {profile.description} </p>
-          </div>
-          <div>
-            {!isMyProfile && 
-            <button onClick={handleCreateConversation} >Message</button>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div className="imageGallery">
-        {imageList}
-      </div>
-    </div>
+        </Grid>
+        <Grid item xs={9}>
+          <h1>
+            {profile.firstName} {profile.lastName}
+            {isMyProfile && <EditIcon onClick={() => history.push('/updateprofile')} color="primary" style={{margin: "0rem 0.5rem"}} />}
+          </h1>
+          <h5>@{profile.username}</h5>
+          <p> {profile.description} </p>
+          {!isMyProfile && <Button variant="contained" onClick={handleCreateConversation} >Message</Button> }
+        </Grid>
+        <Grid item xd={12} style={{borderTop: "1px solid lightGray", padding: "2rem 0.5rem 0", marginTop: "2rem"}} >
+          <ImageList cols={3} >
+            {profile.images && 
+              profile.images.map((image) =>
+              <ImageListItem key={image.uri} >
+                <img loading="lazy" src={image.uri} alt={image.uri} style={{padding: "0"}} />)
+              </ImageListItem>)}
+          </ImageList>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 

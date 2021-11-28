@@ -1,6 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react'
 import { useHistory } from "react-router-dom"
-import {Container, Chip, Grid, TextField, Button, List, ListItemButton, ListItemText, ListItemAvatar, Avatar, Typography, Toolbar} from '@mui/material';
+import {Container, Chip, Grid, Divider, List, ListItemButton, ListItemText, ListItemAvatar, Avatar, Typography, Toolbar, Paper, InputBase, IconButton} from '@mui/material'
+import SendIcon from '@mui/icons-material/Send'
+import InfoIcon from '@mui/icons-material/Info';
 
 // Hooks
 import useGetProfiles from '../../hooks/useGetProfiles';
@@ -13,6 +15,7 @@ const Chat = ({myProfile}) =>{
   const [postMessage] = usePostMessage()
   const [text, setText] = useState("");
   const [conversation, setConversation] = useState({});
+  const [displayChatInfo, setDisplayChatInfo] = useState(false);
   const {messages} = useSubscribeMessage(conversation.conversationId)
   const {conversations, conversationLoading} = useGetConversation()
   const {getProfiles, profileListInfo, profileListLoading} = useGetProfiles()
@@ -22,7 +25,7 @@ const Chat = ({myProfile}) =>{
     messagesEndRef.current?.scrollIntoView()
   }
   var userList
-  var isSubsequentMessage = { previousUser: null, isSame: false }
+  var previousMessage = { previousUser: null, isSame: false }
 
   useEffect(() => {
     scrollToBottom()
@@ -71,67 +74,69 @@ const Chat = ({myProfile}) =>{
           })}
         </List>
       </Grid>
-      <Grid item xs={9} style={{height: "75vh", minHeight: "75vh"}}>
+      <Grid item xs={9}>
         {userList &&
           <Container>
             <Toolbar>
               <Typography variant="h5"> {conversation.conversationName} </Typography>
+              <InfoIcon onClick={()=>setDisplayChatInfo(!displayChatInfo)} color="primary" style={{margin: "0 0.5rem"}} />
             </Toolbar>
-            <List style={{height: '60vh', overflow: 'auto', backgroundColor: 'azure', borderRadius: '10px', padding: '10px'}} >
+            <List style={{height: "70vh", overflow: 'auto', backgroundColor: 'azure', borderRadius: '10px', padding: '10px'}} >
               {messages && messages.slice(0).reverse().map(({id, user, created, text}) => {
                 var userInfo = userList.filter( userListItem => userListItem.username === user)[0]
                 var displayName
                 var imageUri
-                if (user !== isSubsequentMessage.previousUser){
-                  console.log("user !== isSubsequentMessage.previousUser")
-                  isSubsequentMessage.previousUser = user
+                if (user !== previousMessage.previousUser){
+                  previousMessage.previousUser = user
                   displayName = userInfo.firstName + ' ' + userInfo.lastName
-                  isSubsequentMessage.isSame = false
+                  previousMessage.isSame = false
                   imageUri = userInfo.profilePicture[0].uri
                 } else {
-                  console.log("user -== isSubsequentMessage.previousUser")
-                  isSubsequentMessage.isSame = true
+                  previousMessage.isSame = true
                   imageUri = null
                 }
                 var time = new Date(parseInt(created)).toLocaleString()
                 return (
                   <li key={id} style={{textAlign: user===myProfile.username?"right":"left"}} >
-                    {user===myProfile.username
-                      ? <div style={{height: "2rem", width: "2.2rem", float: user===myProfile.username?"right":"left", margin: "0.1rem 0.3rem"}} >
-                          {!isSubsequentMessage.isSame
-                          ? <img alt="profilePicture" src={imageUri} style={{width: "2.2rem", borderRadius: "50%", padding: "0.1rem"}} />
-                          : null}
-                        </div>
-                      : <div style={{height: "3rem", width: "2.2rem", display: "block", float: user===myProfile.username?"right":"left", margin: "0.3rem 0.3rem"}} >
-                          {!isSubsequentMessage.isSame
-                          ? <img alt="profilePicture" src={imageUri} style={{width: "2.2rem", borderRadius: "50%", padding: "0.1rem", marginTop: "0.4rem"}} onClick={()=>history.push(`user/${user}`)}/>
-                          : null}
-                        </div>
-                    }
+                    {user!==myProfile.username &&
+                      <div style={{height: "2.5rem", width: "2.2rem", display: "block", float: "left", margin: "0.3rem"}} >
+                        {!previousMessage.isSame
+                        ? <img alt="profilePicture" src={imageUri} style={{width: "2.2rem", borderRadius: "50%", padding: "0.1rem", marginTop: "0.4rem"}} onClick={()=>history.push(`user/${user}`)}/>
+                        : null}
+                      </div>}
                     <p style={{ marginBottom: "0.1rem" ,fontSize: "0.7rem"}}> {user===myProfile.username?null:displayName} </p>
-                    <Chip style={{fontSize:"0.9rem"}}
+                    {user===myProfile.username && displayChatInfo &&
+                      <span style={{fontSize: "0.5rem", margin: "0 0.5rem" }}>{time}</span>
+                    }
+                    <Chip style={{fontSize:"0.9rem", marginBottom: "0.1rem" }}
                     color={user===myProfile.username?"primary": "secondary"}
                     label={text}
                     ref={messagesEndRef} />
-                    <p style={{fontSize: "0.5rem", marginBottom: "1px"}}>{time}</p>
+                    {user!==myProfile.username && displayChatInfo &&
+                      <span style={{fontSize: "0.5rem", margin: "0 0.5rem"}}>{time}</span>
+                    }
                   </li>
                 )
               })}
             </List>
+            <Paper
+              component="form"
+              onSubmit={sendMessage}
+              style={{padding: "0.2rem", display: "flex", flexDirection: "row"}}
+            >
+              <InputBase
+                onChange={(e)=>{setText(e.target.value)}}
+                value={text}
+                placeholder="Enter message here..."
+                variant="outlined"
+                style={{ flex: "1" }}
+              />
+              <Divider orientation="vertical" flexItem />
+              <SendIcon style={{flex: "0.1", alignSelf: "center"}} color="primary" onClick={sendMessage} />
+            </Paper>
           </Container>
         }
       </Grid>
-      {conversation.conversationId && 
-        <Grid item xs={12}>
-          <form onSubmit={sendMessage} >
-            <div>
-            <TextField 
-              onChange={(e)=>{setText(e.target.value)}} value={text} size="small" variant="outlined" required label="Enter message here" style={{width: "85%"}} />
-            <Button onClick={sendMessage} variant="contained" style={{padding: "1rem", margin: "0.1rem 1rem", color:"white", borderRadius: "20px"}}>Send</Button>
-            </div>
-          </form>
-        </Grid>
-      }
     </Grid>
   )
 }
