@@ -88,7 +88,7 @@ const Register = () => {
             </div>
             <div className="inputSet">
               <label htmlFor="password" >Password</label>
-              <Field name="password" className={ touched["password"] && errors["password"] ? "invalid" : "" }/>
+              <Field name="password" type="password" className={ touched["password"] && errors["password"] ? "invalid" : "" }/>
               <br/>
               <span className="errorMessage">
                 <ErrorMessage name="password" />

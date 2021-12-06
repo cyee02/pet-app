@@ -7,6 +7,7 @@ import useGetConversation from '../Chat/useGetConversation'
 import {Grid, Avatar, Badge, Container, ImageList, ImageListItem, Button} from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Profile = (args) => {
   const history = useHistory()
@@ -50,26 +51,25 @@ const Profile = (args) => {
     }
     history.push('/chat')
   }
-
-  console.log(profile.images)
-
   return (
     <Container style={{marginTop: "2rem"}} >
       <Grid container>
         <Grid item xs={3}>
-          {profile.profilePicture &&
-            <Container>
-              <Badge
-                overlap="circular"
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                badgeContent={isMyProfile && <AddCircleIcon color="primary"
-                style={{backgroundColor: "white", borderRadius: "50%", border: "0.15rem solid" }} />}
-                onClick={() => history.push('/uploadimage/profilePicture')}
-              >
-                <Avatar src={profile.profilePicture[0].uri} style={{width: "10rem", height: "auto", filter: "drop-shadow(0px 0px 2px gray)"}} />
-              </Badge>
-            </Container>
-          }
+          <Container>
+            <Badge
+              overlap="circular"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              badgeContent={isMyProfile && <AddCircleIcon color="primary"
+              style={{backgroundColor: "white", borderRadius: "50%", border: "0.15rem solid" }} />}
+              onClick={() => history.push('/uploadimage/profilePicture')}
+            >
+              <Avatar
+                alt="profilePicture"
+                src={profile.profilePicture?profile.profilePicture[0].uri:undefined}
+                style={{width: "10rem", height: "10rem", filter: "drop-shadow(0px 0px 2px gray)"}}
+              />
+            </Badge>
+          </Container>
         </Grid>
         <Grid item xs={9}>
           <h1>
@@ -80,14 +80,15 @@ const Profile = (args) => {
           <p> {profile.description} </p>
           {!isMyProfile && <Button variant="contained" onClick={handleCreateConversation} >Message</Button> }
         </Grid>
-        <Grid item xd={12} style={{borderTop: "1px solid lightGray", padding: "2rem 0.5rem 0", marginTop: "2rem"}} >
-          <ImageList cols={3} >
-            {profile.images && 
-              profile.images.map((image) =>
-              <ImageListItem key={image.uri} >
-                <img loading="lazy" src={image.uri} alt={image.uri} style={{padding: "0"}} />)
-              </ImageListItem>)}
-          </ImageList>
+        <Grid item xs={12} style={{borderTop: "1px solid lightGray", padding: "2rem 0.5rem 0", marginTop: "2rem"}} >
+          {profile.images && 
+            <ImageList cols={3} >
+              {profile.images.map((image) =>
+                <ImageListItem key={image.uri} >
+                  <img loading="lazy" src={image.uri} alt={image.uri} style={{padding: "0"}}/>)
+                </ImageListItem>)}
+            </ImageList>
+          }
         </Grid>
       </Grid>
     </Container>

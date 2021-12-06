@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react'
 import { useHistory } from "react-router-dom"
-import {Container, Chip, Grid, Divider, List, ListItemButton, ListItemText, ListItemAvatar, Avatar, Typography, Toolbar, Paper, InputBase, IconButton} from '@mui/material'
+import {Container, Chip, Grid, Divider, List, ListItemButton, ListItemText, ListItemAvatar, Avatar, Typography, Toolbar, Paper, InputBase} from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 import InfoIcon from '@mui/icons-material/Info';
 
@@ -25,7 +25,6 @@ const Chat = ({myProfile}) =>{
     messagesEndRef.current?.scrollIntoView()
   }
   var userList
-  var previousMessage = { previousUser: null, isSame: false }
 
   useEffect(() => {
     scrollToBottom()
@@ -33,9 +32,7 @@ const Chat = ({myProfile}) =>{
 
   if (!myProfile) {
     history.push('/signin')
-    return (
-      null
-      )
+    return null
   }
 
   if (!profileListLoading) {
@@ -49,9 +46,20 @@ const Chat = ({myProfile}) =>{
       setText("");
     }
   }
+
+  // To check if it is the first message
+  var previousUser
+  const checkFirstMessage = (user) => {
+    if (user !== previousUser){
+      previousUser = user
+      return true
+    }
+    return false
+  }
+
   return(
     <Grid container spacing={2} style={{padding: "1rem"}}>
-      <Grid item xs={3}>
+      <Grid item xs={3} >
         <Toolbar >
           <Typography variant="h5"> Conversations </Typography>
         </Toolbar>
@@ -74,47 +82,55 @@ const Chat = ({myProfile}) =>{
           })}
         </List>
       </Grid>
-      <Grid item xs={9}>
+      <Grid item xs={9} >
         {userList &&
           <Container>
             <Toolbar>
               <Typography variant="h5"> {conversation.conversationName} </Typography>
               <InfoIcon onClick={()=>setDisplayChatInfo(!displayChatInfo)} color="primary" style={{margin: "0 0.5rem"}} />
             </Toolbar>
-            <List style={{height: "70vh", overflow: 'auto', backgroundColor: 'azure', borderRadius: '10px', padding: '10px'}} >
+            <List style={{ height: "70vh", overflow: 'auto', backgroundColor: 'azure', borderRadius: '10px', padding: '10px'}} >
               {messages && messages.slice(0).reverse().map(({id, user, created, text}) => {
                 var userInfo = userList.filter( userListItem => userListItem.username === user)[0]
-                var displayName
-                var imageUri
-                if (user !== previousMessage.previousUser){
-                  previousMessage.previousUser = user
-                  displayName = userInfo.firstName + ' ' + userInfo.lastName
-                  previousMessage.isSame = false
-                  imageUri = userInfo.profilePicture[0].uri
-                } else {
-                  previousMessage.isSame = true
-                  imageUri = null
-                }
+                var isFirstMessage = checkFirstMessage(user)
                 var time = new Date(parseInt(created)).toLocaleString()
                 return (
-                  <li key={id} style={{textAlign: user===myProfile.username?"right":"left"}} >
-                    {user!==myProfile.username &&
-                      <div style={{height: "2.5rem", width: "2.2rem", display: "block", float: "left", margin: "0.3rem"}} >
-                        {!previousMessage.isSame
-                        ? <img alt="profilePicture" src={imageUri} style={{width: "2.2rem", borderRadius: "50%", padding: "0.1rem", marginTop: "0.4rem"}} onClick={()=>history.push(`user/${user}`)}/>
-                        : null}
-                      </div>}
-                    <p style={{ marginBottom: "0.1rem" ,fontSize: "0.7rem"}}> {user===myProfile.username?null:displayName} </p>
-                    {user===myProfile.username && displayChatInfo &&
-                      <span style={{fontSize: "0.5rem", margin: "0 0.5rem" }}>{time}</span>
-                    }
-                    <Chip style={{fontSize:"0.9rem", marginBottom: "0.1rem" }}
-                    color={user===myProfile.username?"primary": "secondary"}
-                    label={text}
-                    ref={messagesEndRef} />
-                    {user!==myProfile.username && displayChatInfo &&
-                      <span style={{fontSize: "0.5rem", margin: "0 0.5rem"}}>{time}</span>
-                    }
+                  <li key={id} style={{display: "inline-block", width: "100%"}} >
+                    <div>
+                      {user===myProfile.username
+                        ? <div style={{ float: "right" }} >
+                            {displayChatInfo && <span style={{fontSize: "0.5rem", margin: "0 0.5rem"}}>{time}</span>}
+                            <Chip style={{fontSize:"0.9rem", marginBottom: "0.1rem" }}
+                            color={"primary"}
+                            label={text}
+                            ref={messagesEndRef} />
+                          </div>
+                        // Their messages
+                        : <div style={{ float: "left", position: "relative" }} >
+                            {isFirstMessage &&
+                            <div>
+                              <p style={{marginBottom: "0", marginLeft: "48px", fontSize: "0.7rem"}} >{userInfo.firstName} {userInfo.lastName}</p>
+                              <div 
+                                style={{
+                                  backgroundImage: userInfo.profilePicture && `url(${userInfo.profilePicture[0].uri})`,
+                                  width: "44px",
+                                  height: "44px",
+                                  borderRadius: "22px",
+                                  backgroundSize: "48px",
+                                  backgroundPosition: "center",
+                                  position: "absolute",
+                                  bottom: "0",
+                                }}
+                                onClick={()=>history.push(`user/${userInfo.username}`)}
+                              />
+                            </div>}
+                            <Chip style={{fontSize:"0.9rem", marginBottom: "0.1rem", marginLeft: '48px' }}
+                            color={"secondary"}
+                            label={text}
+                            ref={messagesEndRef} />
+                            {displayChatInfo && <span style={{fontSize: "0.5rem", margin: "0 0.5rem"}}>{time}</span>}
+                          </div>}
+                    </div>
                   </li>
                 )
               })}
