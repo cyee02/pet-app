@@ -3,12 +3,17 @@ import { getMainDefinition } from '@apollo/client/utilities'
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { setContext } from '@apollo/client/link/context';
 import { createUploadLink } from 'apollo-upload-client';
+import * as endpoint from '../endpoint.json'
+// import * as endpoint from '../endpointTest.json'
 
-const link = createUploadLink({ uri: 'http://localhost:4000/graphql' });
+const graphqlEndpoint = endpoint.graphqlEndpoint?endpoint.graphqlEndpoint:'http://localhost:4000/graphql'
+const wsGraphqlEndpoint = endpoint.wsGraphqlEndpoint?endpoint.wsGraphqlEndpoint:'ws://localhost:4000/graphql'
+
+const link = createUploadLink({ uri: graphqlEndpoint});
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000/graphql`,
+  uri: wsGraphqlEndpoint,
   options: {
-    reconnect: true,
+    reconnect: false,
   },
 });
 const splitLink = split(

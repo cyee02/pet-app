@@ -7,7 +7,6 @@ import useGetConversation from '../Chat/useGetConversation'
 import {Grid, Avatar, Badge, Container, ImageList, ImageListItem, Button} from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Profile = (args) => {
   const history = useHistory()

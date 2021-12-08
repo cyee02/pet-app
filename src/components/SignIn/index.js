@@ -52,7 +52,7 @@ const SignIn = ({myProfile}) => {
           <Form>
             <div className="inputSet">
               <label htmlFor="username" >Username</label>
-              <Field name="username" className={ touched["username"] && errors["username"] ? "invalid" : "" }/>
+              <Field name="username" autoCapitalize="off" className={ touched["username"] && errors["username"] ? "invalid" : "" }/>
               <br/>
               <span className="errorMessage">
                 <ErrorMessage name="username" />
